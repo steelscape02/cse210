@@ -1,5 +1,3 @@
-using System;
-
 void playGame(){
     Random randomGenerator = new Random();
     int guess_count = 0;
@@ -21,7 +19,6 @@ void playGame(){
     }
 }
 
-
 Console.WriteLine("Welcome to the number guesser!");
 playGame();
 Console.WriteLine("Thank you for playing!\n");
@@ -34,5 +31,3 @@ if (play == "yes"){
 }else{
     Console.WriteLine("Thank you!");
 }
-
-
