@@ -15,7 +15,18 @@
             ],
             "problemMatcher": "$msCompile"
         },
-
+        {
+            "label": "build-letter-grader",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/tasks/w01/w01.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
         {
             "label": "build-csharp-prep-Prep1",
             "command": "dotnet",

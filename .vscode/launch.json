@@ -2,6 +2,18 @@
 {
     "version": "0.2.0",
     "configurations": [
+        {
+            "name": "C#: w03 Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/tasks/w03/w03.csproj"
+        },
+        {
+            "name": "C#: /tasks/w01/grader/w01 Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/tasks/w01/grader/w01.csproj"
+        },
 
         {
             "name": "Sandbox Project",
@@ -15,7 +27,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "C# Prep 1",
             "type": "coreclr",
