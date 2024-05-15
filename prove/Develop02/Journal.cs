@@ -24,7 +24,6 @@ class Journal(){
         string filename;
         Console.Write("Please enter filename: ");
         filename = Console.ReadLine();
-        string path = Directory.GetCurrentDirectory();
         
         using StreamWriter outputFile = new(filename);
         foreach (Entry entry in _entries)
@@ -36,13 +35,11 @@ class Journal(){
         filename = Console.ReadLine();
         try
         {
-            string path = Directory.GetCurrentDirectory();
             using StreamReader reader = new(filename);;
             
             string line;
             while((line = reader.ReadLine()) != null){
                 string[] elements = line.Split(";");
-                //Console.WriteLine(elements);
                 Entry entry = new()
                 {
                     _date = elements[0],
@@ -50,7 +47,6 @@ class Journal(){
                     _response = elements[2],
                     _mood = elements[3]
                 };
-                //Console.WriteLine($"Date: {elements[0]}\nPrompt: {elements[1]}\nResponse: {elements[2]}");
                 _entries.Add(entry);
             }
         }
