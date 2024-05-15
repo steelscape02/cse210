@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+//Exceeds Requirements: Added mood to Entry. Every time a new entry is created, the mood of the user is recorded.
 
 class Program
 {
