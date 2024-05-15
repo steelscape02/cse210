@@ -3,6 +3,7 @@ class Entry(){
     public string _response;
     
     public string _prompt;
+    public string _mood;
     public List<string> _prompts = [
         "Who was the most interesting person I interacted with today? ",
         "What was the best part of my day? ",
@@ -15,5 +16,7 @@ class Entry(){
         _prompt = _prompts[rnd.Next(_prompts.Count)];
         Console.Write(_prompt);
         _response = Console.ReadLine();
+        Console.Write("How are you feeling today? ");
+        _mood = Console.ReadLine();
     }
 }

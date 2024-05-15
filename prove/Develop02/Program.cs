@@ -21,13 +21,13 @@ class Program
                     journal.NewEntry();
                     break;
                 case 2:
-                    journal.Display();
+                    Journal.Display();
                     break;
                 case 3:
                     Journal.Save();
                     break;
                 case 4:
-                    journal.Load();
+                    Journal.Load();
                     break;
                 case 5:
                     Console.WriteLine("Goodbye!");
