@@ -10,8 +10,11 @@ class Program
 
         
         thing1.Display();
-        Console.ReadKey();
-        thing1.Advance();
-        thing1.Display();
+        while(thing1.GetLength() > 0){
+            Console.ReadKey();
+            thing1.Advance();
+            thing1.Display();
+        }
     }
 }
+
