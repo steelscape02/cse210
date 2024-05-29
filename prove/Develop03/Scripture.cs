@@ -50,7 +50,7 @@ class Scripture(){
                 try{
                     index +=1;
                     _words[index].MakeEmpty();
-                }catch (IndexOutOfRangeException){
+                }catch (ArgumentOutOfRangeException){
                     index -= 1;
                     _words[index].MakeEmpty();
                 }
