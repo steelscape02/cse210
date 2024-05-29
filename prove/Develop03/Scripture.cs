@@ -22,22 +22,42 @@ class Scripture(){
 
     public void Advance(){
         var rand = new Random();
-        int index = rand.Next(_words.Count());
-        if(_words[index]._empty == false){
-            _words[index].MakeEmpty();
-        }else{
-            int total_len = _words.Count - index;
-            while(_words[index]._empty == true && total_len > 0){
-                index = rand.Next(_words.Count());
-                total_len -= index;
+        int reps = rand.Next(3); //statically set
+        int index = 0;
+        int prev_index = 0;
+        bool empty = false;
+        bool all_empty = true;
+        foreach(Word word in _words){
+            if(word.GetEmpty() == false){all_empty = false;}
+        }
+        if(all_empty == true){
+            Console.Clear();
+            Console.SetCursorPosition(0,0);
+            Console.WriteLine("Finished!");
+        }
+        do{
+            rand = new Random(); //regenerate random
+            index = rand.Next(_words.Count());
+            if(index == prev_index){
+                while(index == prev_index){
+                    index = rand.Next(_words.Count());
+                }
             }
-            if(total_len <= 0){
-                Console.Clear();
-                Console.WriteLine("Good Job!");
-            }else{
+            empty = _words[index].GetEmpty();
+            if(empty == false){
                 _words[index].MakeEmpty();
+            }else{
+                try{
+                    index +=1;
+                    _words[index].MakeEmpty();
+                }catch (IndexOutOfRangeException){
+                    index -= 1;
+                    _words[index].MakeEmpty();
+                }
             }
-        }   
+            reps -= 1;
+            prev_index = index;
+        }while(reps > 0);
     }
 
     public void Display(){
