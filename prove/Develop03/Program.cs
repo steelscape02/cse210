@@ -16,10 +16,13 @@ class Program
         string nephi225 = "Adam fell that men might be; and men are, that they might have joy.";
         thing2.SetPhrase("2 Nephi 2:25",nephi225);
         scriptures.Add(thing2);
+
         var rand = new Random();
         int index = rand.Next(scriptures.Count);
         Scripture selected = scriptures[index];
+
         selected.Display();
+        
         while(selected.GetLength() > 0){
             Console.SetCursorPosition(0,5);
             Console.Write("Press enter to continue or 'quit' to end: ");
