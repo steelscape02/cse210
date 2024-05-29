@@ -20,21 +20,16 @@ class Scripture(){
 
     public int GetLength(){return _length;}
 
-    public void Advance(){
+    public bool Advance(){
+
+        
         var rand = new Random();
         int reps = rand.Next(3); //statically set
         int index = 0;
         int prev_index = 0;
         bool empty = false;
-        bool all_empty = true;
-        foreach(Word word in _words){
-            if(word.GetEmpty() == false){all_empty = false;}
-        }
-        if(all_empty == true){
-            Console.Clear();
-            Console.SetCursorPosition(0,0);
-            Console.WriteLine("Finished!");
-        }
+        bool all_empty = false;
+        
         do{
             rand = new Random(); //regenerate random
             index = rand.Next(_words.Count());
@@ -47,17 +42,24 @@ class Scripture(){
             if(empty == false){
                 _words[index].MakeEmpty();
             }else{
-                try{
-                    index +=1;
-                    _words[index].MakeEmpty();
-                }catch (ArgumentOutOfRangeException){
-                    index -= 1;
-                    _words[index].MakeEmpty();
+                all_empty = true;
+                foreach(Word word in _words){
+                    if(word.GetEmpty() == false){
+                        word.MakeEmpty();
+                        all_empty = false;
+                        break;
+                    }
+                }
+                if(all_empty == true){
+                    return true;
+                }else{
+                    return false;
                 }
             }
             reps -= 1;
             prev_index = index;
         }while(reps > 0);
+        return false;
     }
 
     public void Display(){
@@ -72,5 +74,10 @@ class Scripture(){
         Console.Write(_name);
         Console.Write("\n");
         Console.Write(scripture);
+    }
+    public void Finish(){
+        Console.Clear();
+        Console.SetCursorPosition(0,0);
+        Console.WriteLine("Finished!");
     }
 }
