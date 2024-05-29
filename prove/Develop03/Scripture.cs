@@ -76,7 +76,7 @@ class Scripture(){
     public void Finish(){
         Console.Clear();
         Console.SetCursorPosition(0,0);
-        Console.WriteLine("Finished!");
+        Console.WriteLine("Goodbye");
         Thread.Sleep(5000);
         return;
     }
