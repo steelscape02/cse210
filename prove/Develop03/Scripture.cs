@@ -52,8 +52,6 @@ class Scripture(){
                 }
                 if(all_empty == true){
                     return true;
-                }else{
-                    return false;
                 }
             }
             reps -= 1;
@@ -79,5 +77,7 @@ class Scripture(){
         Console.Clear();
         Console.SetCursorPosition(0,0);
         Console.WriteLine("Finished!");
+        Thread.Sleep(5000);
+        return;
     }
 }
