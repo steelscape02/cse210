@@ -6,7 +6,7 @@ class Program
     {
         int choice;
         int length;
-        string datetime = "";
+        DateTime datetime = DateTime.Now;
         Console.WriteLine("1. Breathing Activity");
         Console.WriteLine("2. Reflection Activity");
         Console.WriteLine("3. Listing Activity\n");
@@ -14,11 +14,19 @@ class Program
         choice = Convert.ToInt32(Console.ReadLine());
         Console.Write("Enter desired activity length (in seconds): ");
         length = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("\n");
         switch(choice){
             case 1:
-                Breathing breathing = new(length,datetime,$"Breathing on {datetime}");
+                Breathing breathing = new(length,datetime.ToString(),$"Breathing on {datetime}");
                 breathing.StartActivity();
                 breathing.StartBreathing();
+                breathing.EndActivity();
+                break;
+            case 2:
+                Reflection reflection = new(length,datetime.ToString(),$"Breathing on {datetime}");
+                reflection.StartActivity();
+                reflection.StartReflection();
+                reflection.EndActivity();
                 break;
         }
     }

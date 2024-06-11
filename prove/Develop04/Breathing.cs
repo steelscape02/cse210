@@ -1,16 +1,22 @@
+using System.Security.Cryptography;
+
 class Breathing : Activity{
     private int _length;
-    private int _pauseLength = 5; //seconds
-    public Breathing(int length, string datetime, string activity) : base(datetime,activity,length){_length = length;}
+    private int _breathIn = 4;
+    private int _breathHold = 7;
+    private int _breathOut = 8;
+    public Breathing(int length, string datetime, string entryName) : base(datetime,entryName,"Breathing",length){_length = length;}
 
     public void StartBreathing(){
-        int actLength = _length;
-        actLength /=(_pauseLength*2); //split to turn length given into cycles completed
+        int actLength = _length/(_breathIn + _breathHold + _breathOut); //split to turn length, runs for length
+
         while(actLength > 0){
-            Console.WriteLine("\nBreath in\n");
-            LoadingBar(1);
-            Console.WriteLine("\nBreath out\n");
-            LoadingBar(1);  
+            Console.Write("\nBreath in ");
+            LoadingBar(_breathIn,1);
+            Console.Write("\nHold your breath ");
+            LoadingBar(_breathHold,1);
+            Console.Write("\nBreath out ");
+            LoadingBar(_breathOut,1);
             actLength -=1;
         }
     }

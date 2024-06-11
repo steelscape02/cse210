@@ -1,10 +1,11 @@
 class Prompt{
     private string _prompt;
+    private string _question;
     private string _response;
     private bool _used;
-    private List<string> _reflectionPrompts;
-    private List<string> _reflectionQuestions;
-    private List<string> _listingPrompts;
+    private List<string> _reflectionPrompts = [""];
+    private List<string> _reflectionQuestions = [""];
+    private List<string> _listingQuestions = [""];
 
     public void SetLists(){
         //static set
@@ -23,15 +24,15 @@ class Prompt{
         _reflectionQuestions.Add("What did you learn about yourself through this experience?");
         _reflectionQuestions.Add("How can you keep this experience in mind in the future?");
 
-        _listingPrompts.Add("Who are people that you appreciate?");
-        _listingPrompts.Add("What are some personal strengths of yours?");
-        _listingPrompts.Add("Who are some people who have helped you this week?");
-        _listingPrompts.Add("When have you felt the Holy Ghost this month?");
-        _listingPrompts.Add("Who are some of your personal heroes?");
+        _listingQuestions.Add("Who are people that you appreciate?");
+        _listingQuestions.Add("What are some personal strengths of yours?");
+        _listingQuestions.Add("Who are some people who have helped you this week?");
+        _listingQuestions.Add("When have you felt the Holy Ghost this month?");
+        _listingQuestions.Add("Who are some of your personal heroes?");
     }
 
     public string GetPrompt(string activity){ //get and set prompt
-        SetLists(); //as a backup
+         //as a backup
         var rand = new Random();
         int length;
         int pos;
@@ -43,18 +44,39 @@ class Prompt{
                 prompt = _reflectionPrompts[pos];
                 _prompt = prompt;
                 return prompt;
-            case "listing":
-                length = _listingPrompts.Count();
-                pos = rand.Next(length);
-                prompt = _listingPrompts[pos];
-                _prompt = prompt;
-                return prompt;
             default:
                 Console.WriteLine("Activity Not Found");
                 return "NULL";           
         }
     }
 
+    public string GetQuestion(string activity){ //get and set question
+        var rand = new Random();
+        int length;
+        int pos;
+        string question;
+        switch(activity){
+            case "reflection":
+                length = _reflectionQuestions.Count();
+                pos = rand.Next(length);
+                question = _reflectionQuestions[pos];
+                _question = question;
+                return question;
+            case "listing":
+                length = _listingQuestions.Count();
+                pos = rand.Next(length);
+                question = _listingQuestions[pos];
+                _question = question;
+                return question;
+            default:
+                Console.WriteLine("Activity Not Found");
+                return "NULL";
+        }
+    }
+
+    public void SetResponse(string response){
+        _response = response;
+    }
     public string GetResponse(){ //only for listing
         return _response;
     }
