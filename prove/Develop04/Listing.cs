@@ -43,6 +43,8 @@ class Listing : Activity{
                 break;
             }
         }
+        Console.Clear();
+        Console.SetCursorPosition(0,0);
         Console.WriteLine($"\nYou recorded {_responses.Count()-1} thoughts:"); //-1 to remove count for initializer
         foreach(string res in _responses){
             Console.WriteLine($"{res}");

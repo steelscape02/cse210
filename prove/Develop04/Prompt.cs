@@ -8,17 +8,13 @@ class Prompt{
     private List<int> _rQuestionRemove = [0];
     private List<int> _lQuestionRemove = [0];
 
-    public void SetLists(){
-        //static set
-        
+    private void SetReflectPrompts(){
         _reflectionPrompts.Add("Think of a time you stood up for someone else.");
         _reflectionPrompts.Add("Think of a time when you did something really difficult");
         _reflectionPrompts.Add("Think of a time when you helped someone in need");
         _reflectionPrompts.Add("Think of a time when you did something truly selfless");
-        foreach(int pos in _rPromptRemove){
-            _reflectionPrompts.RemoveAt(pos);
-        }
-    
+    }
+    private void SetReflectQuestions(){
         _reflectionQuestions.Add("Why was this experience meaningful to you?");
         _reflectionQuestions.Add("Have yo ever done anything like this before?");
         _reflectionQuestions.Add("How did you get started?");
@@ -28,17 +24,50 @@ class Prompt{
         _reflectionQuestions.Add("What could you learn from this experience that applies to other situations?");
         _reflectionQuestions.Add("What did you learn about yourself through this experience?");
         _reflectionQuestions.Add("How can you keep this experience in mind in the future?");
-        foreach(int pos in _rQuestionRemove){
-            _reflectionQuestions.RemoveAt(pos);
-        }
-        
+    }
+    private void SetListQuestions(){
         _listingQuestions.Add("Who are people that you appreciate?");
         _listingQuestions.Add("What are some personal strengths of yours?");
         _listingQuestions.Add("Who are some people who have helped you this week?");
         _listingQuestions.Add("When have you felt the Holy Ghost this month?");
         _listingQuestions.Add("Who are some of your personal heroes?");
+    }
+    public void SetLists(){
+        //static set
+        
+        SetReflectPrompts();
+        foreach(int pos in _rPromptRemove){
+            _reflectionPrompts.RemoveAt(pos);
+        }
+
+        if(_reflectionPrompts.Count() == 0){
+            SetReflectPrompts();
+            _reflectionPrompts.RemoveAt(0);
+            _rPromptRemove.Clear();
+            _rPromptRemove.Add(0);
+        }
+
+        SetReflectQuestions();
+        foreach(int pos in _rQuestionRemove){
+            _reflectionQuestions.RemoveAt(pos);
+        }
+
+        if(_reflectionQuestions.Count() ==0){
+            SetReflectQuestions();
+            _reflectionQuestions.RemoveAt(0);
+            _rQuestionRemove.Clear();
+            _rQuestionRemove.Add(0);
+        }
+        
+        SetListQuestions();
         foreach(int pos in _lQuestionRemove){
             _listingQuestions.RemoveAt(pos);
+        }
+        if(_listingQuestions.Count() ==0){
+            SetListQuestions();
+            _listingQuestions.RemoveAt(0);
+            _lQuestionRemove.Clear();
+            _lQuestionRemove.Add(0);
         }
     }
 
@@ -51,7 +80,7 @@ class Prompt{
         switch(activity){
             case "reflection":
                 length = _reflectionPrompts.Count();
-                pos = rand.Next(length);
+                pos = rand.Next(0,length-1);
                 prompt = _reflectionPrompts[pos];
                 _rPromptRemove.Add(pos);
                 _prompt = prompt;
@@ -70,14 +99,14 @@ class Prompt{
         switch(activity){
             case "reflection":
                 length = _reflectionQuestions.Count();
-                pos = rand.Next(length);
+                pos = rand.Next(0,length-1);
                 question = _reflectionQuestions[pos];
                 _rQuestionRemove.Add(pos);
                 _question = question;
                 return question;
             case "listing":
                 length = _listingQuestions.Count();
-                pos = rand.Next(length);
+                pos = rand.Next(0,length-1);
                 question = _listingQuestions[pos];
                 _lQuestionRemove.Add(pos);
                 _question = question;
