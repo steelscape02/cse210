@@ -11,7 +11,7 @@ class Breathing : Activity{
         Console.Clear();
         Console.SetCursorPosition(0,0);
         int actLength = _length/(_breathIn + _breathHold + _breathOut); //split to turn length, runs for length
-        //add total timer
+        
         do{
             Console.Clear();
             Console.SetCursorPosition(0,0);

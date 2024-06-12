@@ -10,19 +10,15 @@ class Prompt{
 
     public void SetLists(){
         //static set
-        //_reflectionPrompts.RemoveAt(0); //remove list initializer
-        foreach(int pos in _rPromptRemove){
-            _reflectionPrompts.RemoveAt(pos);
-        }
+        
         _reflectionPrompts.Add("Think of a time you stood up for someone else.");
         _reflectionPrompts.Add("Think of a time when you did something really difficult");
         _reflectionPrompts.Add("Think of a time when you helped someone in need");
         _reflectionPrompts.Add("Think of a time when you did something truly selfless");
-
-        //_reflectionQuestions.RemoveAt(0); //remove list initializer
-        foreach(int pos in _rQuestionRemove){
-            _reflectionQuestions.RemoveAt(pos);
+        foreach(int pos in _rPromptRemove){
+            _reflectionPrompts.RemoveAt(pos);
         }
+    
         _reflectionQuestions.Add("Why was this experience meaningful to you?");
         _reflectionQuestions.Add("Have yo ever done anything like this before?");
         _reflectionQuestions.Add("How did you get started?");
@@ -32,16 +28,18 @@ class Prompt{
         _reflectionQuestions.Add("What could you learn from this experience that applies to other situations?");
         _reflectionQuestions.Add("What did you learn about yourself through this experience?");
         _reflectionQuestions.Add("How can you keep this experience in mind in the future?");
-
-        //_listingQuestions.RemoveAt(0); //remove list initializer
-        foreach(int pos in _lQuestionRemove){
-            _listingQuestions.RemoveAt(pos);
+        foreach(int pos in _rQuestionRemove){
+            _reflectionQuestions.RemoveAt(pos);
         }
+        
         _listingQuestions.Add("Who are people that you appreciate?");
         _listingQuestions.Add("What are some personal strengths of yours?");
         _listingQuestions.Add("Who are some people who have helped you this week?");
         _listingQuestions.Add("When have you felt the Holy Ghost this month?");
         _listingQuestions.Add("Who are some of your personal heroes?");
+        foreach(int pos in _lQuestionRemove){
+            _listingQuestions.RemoveAt(pos);
+        }
     }
 
     public string GetPrompt(string activity){ //get and set prompt
