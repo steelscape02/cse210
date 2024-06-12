@@ -16,7 +16,7 @@ class Prompt{
     }
     private void SetReflectQuestions(){
         _reflectionQuestions.Add("Why was this experience meaningful to you?");
-        _reflectionQuestions.Add("Have yo ever done anything like this before?");
+        _reflectionQuestions.Add("Have you ever done anything like this before?");
         _reflectionQuestions.Add("How did you get started?");
         _reflectionQuestions.Add("How did you feel when it was completed?");
         _reflectionQuestions.Add("What made this time different than other times when you were not as successful?");
@@ -36,15 +36,17 @@ class Prompt{
         //static set
         
         SetReflectPrompts();
+        
         foreach(int pos in _rPromptRemove){
             _reflectionPrompts.RemoveAt(pos);
         }
-
+        
         if(_reflectionPrompts.Count() == 0){
+            int last = _rPromptRemove.Last();
+            _reflectionPrompts.Clear();
             SetReflectPrompts();
-            _reflectionPrompts.RemoveAt(0);
+            _reflectionPrompts.RemoveAt(last);
             _rPromptRemove.Clear();
-            _rPromptRemove.Add(0);
         }
 
         SetReflectQuestions();
@@ -53,10 +55,9 @@ class Prompt{
         }
 
         if(_reflectionQuestions.Count() ==0){
+            _reflectionQuestions.Clear();
             SetReflectQuestions();
-            _reflectionQuestions.RemoveAt(0);
             _rQuestionRemove.Clear();
-            _rQuestionRemove.Add(0);
         }
         
         SetListQuestions();
@@ -64,10 +65,9 @@ class Prompt{
             _listingQuestions.RemoveAt(pos);
         }
         if(_listingQuestions.Count() ==0){
+            _listingQuestions.Clear();
             SetListQuestions();
-            _listingQuestions.RemoveAt(0);
             _lQuestionRemove.Clear();
-            _lQuestionRemove.Add(0);
         }
     }
 
