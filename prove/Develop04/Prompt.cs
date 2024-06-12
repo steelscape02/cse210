@@ -1,7 +1,6 @@
 class Prompt{
     private string _prompt;
     private string _question;
-    private string _response;
     private List<string> _reflectionPrompts = [""];
     private List<string> _reflectionQuestions = [""];
     private List<string> _listingQuestions = [""];
@@ -13,7 +12,7 @@ class Prompt{
         _reflectionPrompts.Add("Think of a time when you helped someone in need");
         _reflectionPrompts.Add("Think of a time when you did something truly selfless");
 
-        _reflectionQuestions.Add("What was this experience meaningful to you?");
+        _reflectionQuestions.Add("Why was this experience meaningful to you?");
         _reflectionQuestions.Add("Have yo ever done anything like this before?");
         _reflectionQuestions.Add("How did you get started?");
         _reflectionQuestions.Add("How did you feel when it was completed?");
@@ -71,12 +70,5 @@ class Prompt{
                 Console.WriteLine("Activity Not Found");
                 return "NULL";
         }
-    }
-
-    public void SetResponse(string response){
-        _response = response;
-    }
-    public string GetResponse(){ //only for listing
-        return _response;
     }
 }

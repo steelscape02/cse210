@@ -9,6 +9,8 @@ class Listing : Activity{
     public Listing(int length, string datetime, string entryName) : base(datetime,entryName,"Listing",length){_length = length;}
 
     public void StartListing(){
+        Console.Clear();
+        Console.SetCursorPosition(0,0);
         Console.WriteLine("This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.");
         double actLength = _length; //alterable variable for decrement loop
         string prompt;
@@ -41,7 +43,7 @@ class Listing : Activity{
                 break;
             }
         }
-        Console.WriteLine("\nResponses:");
+        Console.WriteLine($"\nYou recorded {_responses.Count()-1} thoughts:"); //-1 to remove count for initializer
         foreach(string res in _responses){
             Console.WriteLine($"{res}");
         }
