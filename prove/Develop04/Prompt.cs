@@ -2,7 +2,6 @@ class Prompt{
     private string _prompt;
     private string _question;
     private string _response;
-    private bool _used;
     private List<string> _reflectionPrompts = [""];
     private List<string> _reflectionQuestions = [""];
     private List<string> _listingQuestions = [""];

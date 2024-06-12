@@ -23,10 +23,16 @@ class Program
                 breathing.EndActivity();
                 break;
             case 2:
-                Reflection reflection = new(length,datetime.ToString(),$"Breathing on {datetime}");
+                Reflection reflection = new(length,datetime.ToString(),$"Reflection on {datetime}");
                 reflection.StartActivity();
                 reflection.StartReflection();
                 reflection.EndActivity();
+                break;
+            case 3:
+                Listing listing = new(length,datetime.ToString(),$"Listing on {datetime}");
+                listing.StartActivity();
+                listing.StartListing();
+                listing.EndActivity();
                 break;
         }
     }
