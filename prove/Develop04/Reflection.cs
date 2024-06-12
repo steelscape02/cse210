@@ -15,6 +15,7 @@ class Reflection : Activity{
         string prompt;
         string question;
         //add total timer
+        int reps = 0;
         while(actLength > 0){
             Console.Clear();
             Console.SetCursorPosition(0,0);
@@ -28,6 +29,7 @@ class Reflection : Activity{
             Console.WriteLine($"\n{question}");
             LoadingBar(_reflectTime,0);
             actLength -= _reflectTime;
+            reps +=1;
         }
     }
 }

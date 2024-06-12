@@ -20,7 +20,12 @@ class Activity{
     }
 
     public void EndActivity(){
-        Console.WriteLine($"\nThank you for completing: {_entryName}");
+        Console.Clear();
+        Console.SetCursorPosition(0,0);
+        Console.WriteLine($"\nThank you for completing: {_entryName}\n");
+        Thread.Sleep(3000);
+        Console.Clear();
+        Console.SetCursorPosition(0,0);
     }
 
     public void LoadingBar(int length = 0, int style = 0){ //(length is time in s) - multiple styles, one with beep function
