@@ -50,6 +50,7 @@ class Prompt{
         }
 
         SetReflectQuestions();
+        
         foreach(int pos in _rQuestionRemove){
             _reflectionQuestions.RemoveAt(pos);
         }
