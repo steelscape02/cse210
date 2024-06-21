@@ -7,13 +7,15 @@ class Goal{
     private int _totalPoints;
     private int _points;
     private string _name;
+    private string _type;
     private DateTime _date;
     private string _cwd = Directory.GetCurrentDirectory();
     private string _filename = "text.txt";
 
-    public Goal(string name,DateTime date){
+    public Goal(string name,string type,DateTime date){
         _name = name;
         _date = date;
+        _type = type;
         _goals.Add(this);
     }
 

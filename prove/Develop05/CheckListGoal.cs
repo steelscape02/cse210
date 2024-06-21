@@ -3,7 +3,7 @@ class CheckListGoal : Goal{
     private int _reps = 0;
     private int _factor;
     private int _reward;
-    public CheckListGoal(int factor,int reward,string name,DateTime date) : base(name,date){
+    public CheckListGoal(int factor,int reward,string name,DateTime date) : base(name,"Checklist",date){
         _factor = factor;
         _reward = reward;
     }

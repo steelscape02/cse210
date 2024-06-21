@@ -4,7 +4,7 @@ class EternalGoal : Goal{
     private int _reps = 0;
     private int _runningTotal = 0;
 
-    public EternalGoal(int factor,string name,DateTime date) : base(name,date){_factor = factor;}
+    public EternalGoal(int factor,string name,DateTime date) : base(name,"Eternal",date){_factor = factor;}
 
     public override int GetPoints()
     {
