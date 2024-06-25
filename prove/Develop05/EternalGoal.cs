@@ -6,12 +6,15 @@ class EternalGoal : Goal{
     private bool _completed = false;
     private static string _self = "Eternal";
 
-    public EternalGoal(int factor,string name,DateTime date) : base(name,_self,date,false){
+    public EternalGoal(string name,bool completed,DateTime date,int factor) : base(name,completed,date,_self){
         _factor = factor;
         _name = name;
+        _completed = completed;
         _eternalGoals.Add(this);
-    }
 
+    }
+    
+    public void SetRunning(int runningTotal){_runningTotal = runningTotal;}
     public void CompleteOnce(){
         _runningTotal += _factor;
         UpdatePoints(_name,_runningTotal);
@@ -22,7 +25,7 @@ class EternalGoal : Goal{
         string name = Console.ReadLine();
         Console.Write("Enter the reward that should be given each time this goal is completed (as a number): ");
         int factor = Convert.ToInt32(Console.ReadLine());
-        EternalGoal eternal = new(factor,name,DateTime.Now);
+        EternalGoal eternal = new(name,false,DateTime.Now,factor); //passing in false as default param for completed
         return eternal;
     }
 
@@ -33,6 +36,18 @@ class EternalGoal : Goal{
         if(mute == false){Console.WriteLine($"No goal found under name {name}");}
         return null;
     }
+    public static List<EternalGoal> ExportGoals(){return _eternalGoals;}
+
+    protected void GetTotalPoints(){
+        int grandTotal = 0;
+        foreach(EternalGoal eternal in _eternalGoals){
+            grandTotal += eternal._runningTotal;
+        }
+        UpdateTotal(grandTotal);
+    }
+    public int GetFactor(){return _factor;}
+    public int GetRunningTotal(){return _runningTotal;}
+    public bool GetComplete(){return _completed;}
 
     public override void CloseGoal()
     {

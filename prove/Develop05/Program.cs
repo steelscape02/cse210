@@ -22,6 +22,7 @@ class Program
 
     static Goal ChooseExisting(){
         int length = Goal.DisplayExisting();
+        if(length ==0){return null;}
         Console.Write("Please select a goal number: ");
         int choice = Convert.ToInt32(Console.ReadLine());
         if(choice > length){Console.WriteLine("Invalid goal selection");ChooseExisting();}
@@ -37,7 +38,8 @@ class Program
         if(simple != null){type = "Simple";}
         else if(eternal != null){type = "Eternal";}
         else if(checkList != null){type = "CheckList";}
-        
+        Console.WriteLine($"type: {type}");
+        Thread.Sleep(500);
         Console.WriteLine("Choose number of desired action:\n");
         int choice;
         switch(type){
@@ -134,8 +136,15 @@ class Program
             int choice = ShowMenu(first);
             switch(choice){
                 case 1:
-                    Goal existing = ChooseExisting();
-                    ExistingMenu(existing.GetName());             
+                    try{
+                        Goal existing = ChooseExisting();
+                        ExistingMenu(existing.GetName());
+                    }catch(System.NullReferenceException){
+                        Console.Clear();
+                        Console.SetCursorPosition(0,0);
+                        Console.WriteLine("No existing goals.");
+                        Thread.Sleep(1000);
+                    }      
                     break;
                 case 2:
                     NewGoal();

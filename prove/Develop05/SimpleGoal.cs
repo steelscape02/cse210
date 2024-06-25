@@ -6,18 +6,20 @@ class SimpleGoal : Goal{
     private static string _self = "Simple";
 
 
-    public SimpleGoal(int reward,string name,DateTime date) : base(name,_self,date,false){
+    public SimpleGoal(string name,bool completed,DateTime date,int reward) : base(name,completed,date,_self){
         _reward = reward;
         _name = name;
+        _completed = completed;
         _simpleGoals.Add(this);
+        Thread.Sleep(500);
     }
 
-    public static SimpleGoal CreateSimpleGoal(){
+    public static SimpleGoal CreateSimpleGoal(string name = "",int reward = 0){
         Console.Write("Please Enter the name of the goal: ");
-        string name = Console.ReadLine();
+        name = Console.ReadLine();
         Console.Write("Enter the reward for completing this goal (as a number): ");
-        int reward = Convert.ToInt32(Console.ReadLine());
-        SimpleGoal simple = new(reward,name,DateTime.Now);
+        reward = Convert.ToInt32(Console.ReadLine());
+        SimpleGoal simple = new(name,false,DateTime.Now,reward);
         return simple;
     }
 
@@ -29,7 +31,16 @@ class SimpleGoal : Goal{
         return null;
     }
 
-    //public 
+    public static List<SimpleGoal> ExportGoals(){return _simpleGoals;}
+    public void GetTotalSimple(){
+        int grandTotal = 0;
+        foreach(SimpleGoal simple in _simpleGoals){
+            if(simple._completed == true){grandTotal += simple._reward;}
+        }
+        UpdateTotal(grandTotal);
+    }
+    public int GetReward(){return _reward;}
+    public bool GetComplete(){return _completed;}
 
     public override void CloseGoal()
     {

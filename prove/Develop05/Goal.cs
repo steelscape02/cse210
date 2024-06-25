@@ -1,8 +1,3 @@
-using System.Configuration.Assemblies;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.Marshalling;
-
 class Goal{
     private static List<Goal> _goals = [];
 
@@ -14,7 +9,7 @@ class Goal{
     private DateTime _date;
     
 
-    public Goal(string name, string type, DateTime date,bool completed){
+    public Goal(string name,bool completed,DateTime date, string type){
         _name = name;
         _date = date;
         _type = type;
@@ -27,7 +22,7 @@ class Goal{
     public new string GetType(){return _type;}
     public string GetName(){return _name;}
 
-    public static void Display(){ //add as virtual class that gets $"" strings from the appropriate classes with pertinent information (like repititions completed)
+    public static void Display(){
         foreach(Goal goal in _goals){
             string completionDialog;
             if(goal._completed == true){completionDialog = "X";}
@@ -75,40 +70,71 @@ class Goal{
             }
         }
     }
-
     protected void UpdateTotal(int points){_totalPoints += points;}
     protected void RemoveGoal(){_goals.Remove(this);}
+    private void UpTotal(int points){_totalPoints += points;}
 
     public static void Write(){
         string _filename = "goals.txt";
         using StreamWriter sw = new(_filename,false); //false allows overwrite
+        int completeStatus;
 
-        foreach(Goal goal in _goals){
-            int completeStatus;
-            if(goal._completed == true){completeStatus = 1;}
+        foreach(SimpleGoal simple in SimpleGoal.ExportGoals()){
+            if(simple.GetComplete() == true){completeStatus = 1;}
             else{completeStatus = 0;}
-            sw.WriteLine($"{goal._name};{goal._type};{goal._points};{goal._date};{completeStatus}");
+            sw.WriteLine($"{"Simple"};{simple._name};{completeStatus};{simple._date};{simple.GetReward()}");
+            if(simple._completed == true){}
         }
+        foreach(EternalGoal eternal in EternalGoal.ExportGoals()){
+            if(eternal.GetComplete() == true){completeStatus = 1;}
+            else{completeStatus = 0;}
+            sw.WriteLine($"{"Eternal"};{eternal._name};{completeStatus};{eternal._date};{eternal.GetFactor()};{eternal.GetRunningTotal()}");
+        }
+        foreach(CheckListGoal checkList in CheckListGoal.ExportGoals()){
+            if(checkList.GetComplete() == true){completeStatus = 1;}
+            else{completeStatus = 0;}
+            sw.WriteLine($"{"CheckList"};{checkList._name};{completeStatus};{checkList._date};{checkList.GetFactor()};{checkList.GetReps()};{checkList.GetReward()};{checkList.GetRunningTotal()}");
+        }   //             0             1                 2                3                 4                       5                     6                       7
         
     }
+    
+
     public static void Read(){
         string _filename = "goals.txt";
         if(File.Exists(_filename)){
-            using StreamReader sr = new StreamReader("TestFile.txt");
+            using StreamReader sr = new StreamReader(_filename);
             string line;
-            // Read and display lines from the file until the end of
-            // the file is reached.
+            List<string> names = [];
             while ((line = sr.ReadLine()) != null)
             {
+                bool exists = false;
                 string[] lineElem = line.Split(";");
-                bool complete;
-                if (Convert.ToInt32(lineElem[4]) == 1) { complete = true; }
+                bool complete = false;
+                if (Convert.ToInt32(lineElem[2]) == 1) { complete = true; }
                 else { complete = false; }
-                Goal goal = new(lineElem[0], lineElem[1], DateTime.Parse(lineElem[3]), complete);
-                goal._points = Convert.ToInt32(lineElem[2]);
-                _goals.Add(goal);
+                DateTime date = DateTime.Parse(lineElem[3]);
+                foreach(string name in names){if(lineElem[1].ToLower() == name.ToLower()){exists=true;}}
+                names.Add(lineElem[1]);
+                
+                if(exists == false){
+                    switch(lineElem[0]){
+                        case "Simple":
+                            SimpleGoal simple = new(lineElem[1],complete,date,Convert.ToInt32(lineElem[4]));
+                            if(complete == true){simple._points = Convert.ToInt32(lineElem[4]);}
+                            break;
+                        case "Eternal":
+                            EternalGoal eternal = new(lineElem[1],complete,date,Convert.ToInt32(lineElem[4]));
+                            eternal._points = Convert.ToInt32(lineElem[5]);
+                            eternal.SetRunning(Convert.ToInt32(lineElem[5]));
+                            break;
+                        case "CheckList":
+                            CheckListGoal checkList = new(lineElem[1],complete,date,Convert.ToInt32(lineElem[4]),Convert.ToInt32(lineElem[5]),Convert.ToInt32(lineElem[6]));
+                            checkList._points = Convert.ToInt32(lineElem[7]);
+                            checkList.SetRunning(Convert.ToInt32(lineElem[7]));
+                            break;
+                    }
+                }     
             }
-        }
-        else{Console.WriteLine("File Not Found");Thread.Sleep(2000);}
+        }else{Console.WriteLine("File Not Found");Thread.Sleep(2000);}
     }
 }

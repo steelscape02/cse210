@@ -9,21 +9,21 @@ class CheckListGoal : Goal{
 
     private static string _self = "CheckList";
 
-    public CheckListGoal(int factor,int reps,int reward,string name,DateTime date) : base(name,_self,date,false){
+    public CheckListGoal(string name,bool completed,DateTime date,int factor,int reps,int reward) : base(name,completed,date,_self){
         _factor = factor;
         _reward = reward;
         _reps = reps;
         _name = name;
+        _completed = completed;
         _checkListGoals.Add(this);
     }
-
+    
     public int CompleteOnce(){
         _runningTotal += _factor;
         _reps -=1;
         UpdatePoints(_name,_runningTotal);
         return _reps;
     }
-    public int GetReps(){return _reps;}
 
     public static CheckListGoal CreateCheckListGoal(){
         Console.Write("Please Enter the name of the goal: ");
@@ -38,7 +38,7 @@ class CheckListGoal : Goal{
         if(rewRaw != "" && rewRaw != null){reward = Convert.ToInt32(rewRaw);}
         else{reward = factor * 50;}
 
-        CheckListGoal checkList = new(factor,reps,reward,name,DateTime.Now);
+        CheckListGoal checkList = new(name,false,DateTime.Now,factor,reps,reward); //passing in false as default param for completed
         return checkList;
     }
 
@@ -49,7 +49,22 @@ class CheckListGoal : Goal{
         if(mute == false){Console.WriteLine($"No goal found under name {name}");}
         return null;
     }
+    public static List<CheckListGoal> ExportGoals(){return _checkListGoals;}
+    protected void GetTotalPoints(){
+        int grandTotal = 0;
+        foreach(CheckListGoal checkListGoal in _checkListGoals){
+            grandTotal += checkListGoal._runningTotal;
+        }
+        UpdateTotal(grandTotal);
+    }
 
+    public void SetRunning(int runningTotal){_runningTotal = runningTotal;}
+
+    public int GetFactor(){return _factor;}
+    public int GetReward(){return _reward;}
+    public int GetReps(){return _reps;}
+    public int GetRunningTotal(){return _runningTotal;}
+    public bool GetComplete(){return _completed;}
     public override void CloseGoal()
     {
         UpdateTotal(_runningTotal);
