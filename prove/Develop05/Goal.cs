@@ -72,7 +72,6 @@ class Goal{
     }
     protected void UpdateTotal(int points){_totalPoints += points;}
     protected void RemoveGoal(){_goals.Remove(this);}
-    private void UpTotal(int points){_totalPoints += points;}
 
     public static void Write(){
         string _filename = "goals.txt";
