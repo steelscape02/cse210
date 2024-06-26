@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Security.Cryptography;
+using System.Xml.Serialization;
 
 class Program
 {
@@ -9,14 +10,15 @@ class Program
         else{Console.WriteLine("Options:\n");}
         
         Console.WriteLine("1. Work on an existing goal");
-        Console.WriteLine("2. Create a new goal");
-        Console.WriteLine("3. Display all goals");
+        Console.WriteLine("2. Delete a goal");
+        Console.WriteLine("3. Create a new goal");
+        Console.WriteLine("4. Display all goals");
 
-        Console.WriteLine("4. End Program");
+        Console.WriteLine("5. End Program");
 
         Console.Write("\nPlease select option: ");
         int choice = Convert.ToInt32(Console.ReadLine());
-        if((choice % 1) != 0 || choice > 4 || choice < 1){Console.WriteLine("Invalid Option");ShowMenu(first);}
+        if((choice % 1) != 0 || choice > 5 || choice < 1){Console.WriteLine("Invalid Option");ShowMenu(first);}
         return choice;
     }
 
@@ -109,6 +111,24 @@ class Program
         }
     }
 
+    static void RemoveGoal(){
+        int length = Goal.DisplayExisting(true);
+        if(length == 0){return;}
+        Console.Write("Please select goal number: ");
+        int goal = Convert.ToInt32(Console.ReadLine());
+        if(goal > length){Console.WriteLine("Invalid index");return;}
+        Goal existing = Goal.FindGoal(goal);
+        bool removed = false;
+        
+        removed = SimpleGoal.RemoveSimpleGoal(existing.GetName());
+        removed = EternalGoal.RemoveEternalGoal(existing.GetName());
+        removed = CheckListGoal.RemoveCheckListGoal(existing.GetName());
+        if(removed ==true){Console.WriteLine("Goal Removed.");}
+        else{Console.WriteLine("Goal Not Removed");}
+        Goal.RemoveGoal(goal);
+
+    }
+
     static void SaveGoals(){
         Console.Clear();
         Console.SetCursorPosition(0,0);
@@ -147,12 +167,15 @@ class Program
                     }      
                     break;
                 case 2:
-                    NewGoal();
+                    RemoveGoal();
                     break;
                 case 3:
-                    Goal.Display();
+                    NewGoal();
                     break;
                 case 4:
+                    Goal.Display();
+                    break;
+                case 5:
                     SaveGoals();
                     quit = true;
                     break;

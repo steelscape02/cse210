@@ -30,6 +30,16 @@ class SimpleGoal : Goal{
         if(mute == false){Console.WriteLine($"No goal found under name {name}");}
         return null;
     }
+    public static bool RemoveSimpleGoal(string name = "",bool addPoints = false){
+        foreach(SimpleGoal simple in _simpleGoals){
+            if(simple.GetName() == name){
+                if(addPoints == true){simple.UpdateTotal(simple._reward);}
+                _simpleGoals.Remove(simple);
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static List<SimpleGoal> ExportGoals(){return _simpleGoals;}
     public void GetTotalSimple(){

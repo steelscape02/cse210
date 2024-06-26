@@ -22,19 +22,37 @@ class Goal{
     public new string GetType(){return _type;}
     public string GetName(){return _name;}
 
-    public static void Display(){
+    public static int Display(){
+        int total = 0;
         foreach(Goal goal in _goals){
+            if(goal._type == "Simple"){if(goal._completed == true){total += goal._points;}}
+            else{total += goal._points;}
             string completionDialog;
-            if(goal._completed == true){completionDialog = "X";}
+            if(goal._type == "CheckList"){
+                CheckListGoal check = CheckListGoal.FindCheckListGoal(goal._name);
+                int remReps = check.GetReps();
+                int totReps = check.GetTotalReps();
+                completionDialog = $"{totReps - remReps}/{totReps}";
+            }
+            else if(goal._completed == true){completionDialog = "X";}
             else{completionDialog = " ";}
+
             Console.WriteLine($"Goal Type: {goal._type}\nPoints awarded: {goal._points}\nStarted on: {goal._date}\nCompleted: [{completionDialog}]\n");
         }
-        Console.Write("Press any key to go back...");
-        Console.ReadKey();
+        if(_goals.Count() > 0){
+            Console.WriteLine($"Total Points Gained: {total}");
+            Console.Write("Press any key to go back...");
+            Console.ReadKey();
+        }else{
+            Console.Clear();
+            Console.SetCursorPosition(0,0);
+            Console.WriteLine("No goals available");
+        }
+        return _goals.Count();
     }
-    public static int DisplayExisting(){
+    public static int DisplayExisting(bool all = false){
         for(int i=0;i<_goals.Count();i++){
-            if(_goals[i]._completed == false){Console.WriteLine($"{i+1}.\nName: {_goals[i]._name}\nType: {_goals[i]._type}\n");}
+            if(_goals[i]._completed == false || all == true){Console.WriteLine($"{i+1}.\nName: {_goals[i]._name}\nType: {_goals[i]._type}\n");}
         }
         return _goals.Count();
     }
@@ -46,10 +64,19 @@ class Goal{
             Console.WriteLine($"Index not found\n");
             return null;
         }
-        
     }
-    
-    public virtual void CloseGoal(){UpdateTotal(_totalPoints);_goals.Remove(this);}
+    public static bool RemoveGoal(int index){
+        try{
+            Goal goal = _goals[index-1];
+            _goals.Remove(goal);
+            return true;
+        }catch(ArgumentOutOfRangeException){
+            Console.WriteLine($"Index not found\n");
+            return false;
+        }
+    }
+
+    public virtual void CloseGoal(){UpdateTotal(_totalPoints);_goals.Remove(this);} //goal closure is slightly different in each class
 
     protected void CompleteGoal(string name, int points){
         for(int i=0;i<_goals.Count();i++){
@@ -92,8 +119,8 @@ class Goal{
         foreach(CheckListGoal checkList in CheckListGoal.ExportGoals()){
             if(checkList.GetComplete() == true){completeStatus = 1;}
             else{completeStatus = 0;}
-            sw.WriteLine($"{"CheckList"};{checkList._name};{completeStatus};{checkList._date};{checkList.GetFactor()};{checkList.GetReps()};{checkList.GetReward()};{checkList.GetRunningTotal()}");
-        }   //             0             1                 2                3                 4                       5                     6                       7
+            sw.WriteLine($"{"CheckList"};{checkList._name};{completeStatus};{checkList._date};{checkList.GetFactor()};{checkList.GetReps()};{checkList.GetTotalReps()};{checkList.GetReward()};{checkList.GetRunningTotal()}");
+        }   
         
     }
     
@@ -127,9 +154,10 @@ class Goal{
                             eternal.SetRunning(Convert.ToInt32(lineElem[5]));
                             break;
                         case "CheckList":
-                            CheckListGoal checkList = new(lineElem[1],complete,date,Convert.ToInt32(lineElem[4]),Convert.ToInt32(lineElem[5]),Convert.ToInt32(lineElem[6]));
-                            checkList._points = Convert.ToInt32(lineElem[7]);
-                            checkList.SetRunning(Convert.ToInt32(lineElem[7]));
+                            CheckListGoal checkList = new(lineElem[1],complete,date,Convert.ToInt32(lineElem[4]),Convert.ToInt32(lineElem[5]),Convert.ToInt32(lineElem[7]));
+                            checkList._points = Convert.ToInt32(lineElem[8]);
+                            checkList.SetRunning(Convert.ToInt32(lineElem[8]));
+                            checkList.SetRepTotal(Convert.ToInt32(lineElem[6]));
                             break;
                     }
                 }     

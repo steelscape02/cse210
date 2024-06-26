@@ -2,6 +2,7 @@ class CheckListGoal : Goal{
     private static List<CheckListGoal> _checkListGoals = [];
     private int _runningTotal = 0;
     private int _reps;
+    private int _totalReps;
     private int _factor;
     private int _reward;
     private string _name;
@@ -13,6 +14,7 @@ class CheckListGoal : Goal{
         _factor = factor;
         _reward = reward;
         _reps = reps;
+        _totalReps = reps;
         _name = name;
         _completed = completed;
         _checkListGoals.Add(this);
@@ -49,6 +51,16 @@ class CheckListGoal : Goal{
         if(mute == false){Console.WriteLine($"No goal found under name {name}");}
         return null;
     }
+    public static bool RemoveCheckListGoal(string name = "",bool addPoints = false){
+        foreach(CheckListGoal checkList in _checkListGoals){
+            if(checkList.GetName() == name){
+                if(addPoints == true){checkList.UpdateTotal(checkList._runningTotal);}
+                _checkListGoals.Remove(checkList);
+                return true;
+            }
+        }
+        return false;
+    }
     public static List<CheckListGoal> ExportGoals(){return _checkListGoals;}
     protected void GetTotalPoints(){
         int grandTotal = 0;
@@ -59,12 +71,15 @@ class CheckListGoal : Goal{
     }
 
     public void SetRunning(int runningTotal){_runningTotal = runningTotal;}
+    public void SetRepTotal(int repTotal){_totalReps = repTotal;}
 
     public int GetFactor(){return _factor;}
     public int GetReward(){return _reward;}
     public int GetReps(){return _reps;}
+    public int GetTotalReps(){return _totalReps;}
     public int GetRunningTotal(){return _runningTotal;}
     public bool GetComplete(){return _completed;}
+
     public override void CloseGoal()
     {
         UpdateTotal(_runningTotal);

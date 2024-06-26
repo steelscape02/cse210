@@ -36,6 +36,16 @@ class EternalGoal : Goal{
         if(mute == false){Console.WriteLine($"No goal found under name {name}");}
         return null;
     }
+    public static bool RemoveEternalGoal(string name = "",bool addPoints = false){
+        foreach(EternalGoal eternal in _eternalGoals){
+            if(eternal.GetName() == name){
+                if(addPoints == true){eternal.UpdateTotal(eternal._runningTotal);}
+                _eternalGoals.Remove(eternal);
+                return true;
+            }
+        }
+        return false;
+    }
     public static List<EternalGoal> ExportGoals(){return _eternalGoals;}
 
     protected void GetTotalPoints(){
