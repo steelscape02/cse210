@@ -1,8 +1,3 @@
-using System;
-using System.ComponentModel;
-using System.Security.Cryptography;
-using System.Xml.Serialization;
-
 class Program
 {
     static int ShowMenu(bool first){
