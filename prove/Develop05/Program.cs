@@ -42,6 +42,7 @@ class Program
         switch(type){
             case "Simple":
                 Console.WriteLine("1. Complete Goal");
+                Console.Write("\nPlease enter choice: ");
                 choice = Convert.ToInt32(Console.ReadLine());
                 if(choice == 1){
                     Console.WriteLine("Goal Closed");
@@ -51,6 +52,7 @@ class Program
             case "Eternal":
                 Console.WriteLine("1. Add an occurance");
                 Console.WriteLine("2. Complete Goal");
+                Console.Write("\nPlease enter choice: ");
                 choice = Convert.ToInt32(Console.ReadLine());
                 if(choice == 1){
                     eternal.CompleteOnce();
@@ -64,6 +66,7 @@ class Program
             case "CheckList":
                 Console.WriteLine("1. Add an occurance");
                 Console.WriteLine("2. Check the number of completions remaining");
+                Console.Write("\nPlease enter choice: ");
                 choice = Convert.ToInt32(Console.ReadLine());
                 if(choice == 1){
                     int reps = checkList.CompleteOnce();
