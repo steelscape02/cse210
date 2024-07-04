@@ -73,4 +73,6 @@ class Person{
         }
         return false;
     }
+
+    public string GetName(){return _name;}
 }
