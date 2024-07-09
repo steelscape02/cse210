@@ -7,7 +7,7 @@ class ClothingItem : StorageItem{
     private int _size;
     private StoreRoom _storeRoom;
 
-    public ClothingItem(string name,StoreRoom storeRoom,string style,Person person,int width,int length,int size) : base(name,1,"Clothing",storeRoom,null){
+    public ClothingItem(string name,StoreRoom storeRoom,string style,Person person,int width,int length,int size){
         _name = name;
         _style = style;
         _assignedPerson = person;

@@ -5,7 +5,7 @@ class DocumentItem : StorageItem{
     private Person _assignedPerson;
     private StoreRoom _storeRoom;
 
-    public DocumentItem(string name,StoreRoom storeRoom,string type,Person person,DateTime effectiveDate) : base(name,1,"Document",storeRoom,null){
+    public DocumentItem(string name,StoreRoom storeRoom,string type,Person person,DateTime effectiveDate){
         _name = name;
         _type = type;
         _effectiveDate = effectiveDate;

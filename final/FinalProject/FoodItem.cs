@@ -4,7 +4,7 @@ class FoodItem : StorageItem{
     private int _quantity;
     private StoreRoom _storeRoom;
     
-    public FoodItem(string name,int quantity,StoreRoom storeRoom,DateTime expDate) : base(name,quantity,"Food",storeRoom,expDate.ToString()){
+    public FoodItem(string name,int quantity,StoreRoom storeRoom,DateTime expDate){
         _name = name;
         _expirationDate = expDate;
         _quantity = quantity;

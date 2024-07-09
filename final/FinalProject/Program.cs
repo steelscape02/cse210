@@ -19,12 +19,12 @@ internal class ReaderItem{
 
 internal class ReaderPerson{
     public string name;
-
 }
 
 class Program
 {
     string FILENAME = "db.json";
+    List<StorageItem> _items;
     //JSON
     void Load(){
         //JSON
@@ -33,8 +33,10 @@ class Program
             string json = r.ReadToEnd();
             dynamic array = JsonSerializer.Deserialize<List<ReaderItem>>(json);
             foreach(ReaderItem item in array){
-                
-                StorageItem store = new(item.name,item.quantity,item.type,item.storeRoom,item.date,item.DocPurpose,item.ClStyle,item.ClSize,item.ClW,item.ClL,item.person);
+                string type = item.type;
+                if(type.ToLower() == "food"){_items.Add(new FoodItem(item.name,item.quantity,item.storeRoom,DateTime.Parse(item.date)));}
+                if(type.ToLower() == "document"){_items.Add(new DocumentItem(item.name,item.storeRoom,item.DocPurpose,item.person,DateTime.Parse(item.date)));}
+                if(type.ToLower() == "clothing"){_items.Add(new ClothingItem(item.name,item.storeRoom,item.ClStyle,item.person,item.ClW,item.ClL,item.ClSize));}
             }
         }
     }
