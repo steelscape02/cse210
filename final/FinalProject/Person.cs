@@ -2,6 +2,11 @@ class Person{
     private List<Person> _family;
 
     private string _name;
+    public string Name
+    {
+        get{return _name;}
+        set{_name = value;}
+    }
     private string _gender;
     private int _age;
     private double _height; //inches
@@ -74,5 +79,4 @@ class Person{
         return false;
     }
 
-    public string GetName(){return _name;}
 }

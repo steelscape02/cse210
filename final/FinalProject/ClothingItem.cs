@@ -7,7 +7,7 @@ class ClothingItem : StorageItem{
     private int _size;
     private StoreRoom _storeRoom;
 
-    public ClothingItem(string name,StoreRoom storeRoom,string style,Person person,int width,int length,int size) : base(name,1,storeRoom){
+    public ClothingItem(string name,StoreRoom storeRoom,string style,Person person,int width,int length,int size) : base(name,1,"Clothing",storeRoom,null){
         _name = name;
         _style = style;
         _assignedPerson = person;
@@ -23,18 +23,18 @@ class ClothingItem : StorageItem{
             summary = @$"
                 Name: {_name}\n
                 Type: Clothing\n
-                Store Room: {_storeRoom.GetName()}\n\n
+                Store Room: {_storeRoom.Name}\n\n
 
-                Person: {_assignedPerson.GetName()}\n
+                Person: {_assignedPerson.Name}\n
                 Size: W: {_width} L: {_length}\n
                 Style: {_style}\n";
         }else{
             summary = @$"
                 Name: {_name}\n
                 Type: Clothing\n
-                Store Room: {_storeRoom.GetName()}\n\n
+                Store Room: {_storeRoom.Name}\n\n
 
-                Person: {_assignedPerson.GetName()}\n
+                Person: {_assignedPerson.Name}\n
                 Size: {_size}\n
                 Style: {_style}\n";
         }
