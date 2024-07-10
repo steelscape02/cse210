@@ -1,5 +1,10 @@
 class Person{
-    private List<Person> _family;
+    private static List<Person> _family;
+    public static List<Person> Family
+    {
+        get{return _family;}
+        set{_family = value;}
+    }
 
     private string _name;
     public string Name
@@ -8,9 +13,48 @@ class Person{
         set{_name = value;}
     }
     private string _gender;
+    public string Gender
+    {
+        get{return _gender;}
+        set{_gender = value;}
+    }
     private int _age;
+    public int Age
+    {
+        get{return _age;}
+        set{_age = value;}
+    }
     private double _height; //inches
+    public double Height
+    {
+        get{return _height;}
+        set{_height = value;}
+    }
     private double _weight;
+    public double Weight
+    {
+        get{return _weight;}
+        set{_weight = value;}
+    }
+    private int _size;
+    public int Size
+    {
+        get{return _size;}
+        set{_size = value;}
+    }
+    private int _width;
+    public int Width
+    {
+        get{return _width;}
+        set{_width = value;}
+    }
+    private int _length;
+    public int Length
+    {
+        get{return _length;}
+        set{_length = value;}
+    }
+
 
     //calc given age,weight,and height
     private double _caloric;
