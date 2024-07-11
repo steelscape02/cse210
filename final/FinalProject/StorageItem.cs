@@ -18,5 +18,9 @@ abstract class StorageItem{
         return null;
     }
     //Display
+    protected static DateTime ParseDate(string date){
+        DateTime parsed = DateTime.Parse(date);
+        return parsed;
+    }
     
 }

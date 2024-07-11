@@ -91,6 +91,20 @@ class Person{
         _hydration = _hydration * _prepLength;
         _caloricNeed = _caloric * _prepLength;
     }
+    public static Person GetPerson(string name = "",bool entry = false){
+        if(entry == true){
+            Console.Write("Enter the name of the person: ");
+            name = Console.ReadLine();
+        }
+        foreach(Person person in Family){
+            if(person.Name == name){return person;}
+        }
+        if(entry == true){
+            Console.WriteLine("Person not found..");
+            GetPerson(entry:true);
+        }
+        return null;
+    }
     public string GetSummary(){
         var summary = new System.Text.StringBuilder();
         summary.AppendLine("Family: \n");
