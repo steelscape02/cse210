@@ -1,5 +1,5 @@
 class Person{
-    private static List<Person> _family;
+    private static List<Person> _family = [];
     public static List<Person> Family
     {
         get{return _family;}
@@ -91,6 +91,58 @@ class Person{
         _hydration = _hydration * _prepLength;
         _caloricNeed = _caloric * _prepLength;
     }
+
+    public static void CreatePerson(){
+        Console.Clear();
+        Console.SetCursorPosition(0,0);
+        Console.Write("Enter name: ");
+        string name = Console.ReadLine();
+        Console.Write("Enter biological sex at birth (male / female): ");
+        string gender = Console.ReadLine();
+        Console.Write("Enter age: ");
+        int age = Convert.ToInt32(Console.ReadLine());
+        Console.Write("Enter height (decimal notation: 5 ft 6 in -> 5.5): ");
+        double height = Convert.ToDouble(Console.ReadLine());
+        Console.Write("Enter weight (decimals allowed): ");
+        double weight = Convert.ToDouble(Console.ReadLine());
+        Family.Add(new Person(name: name, gender: gender, age: age, height: height, weight: weight));
+    }
+
+    public static bool RemovePerson(){
+        Console.Clear();
+        Console.SetCursorPosition(0,0);
+        return Family.Remove(GetPerson(entry:true));
+    }
+
+    public static bool EditPerson(){
+        Console.Clear();
+        Console.SetCursorPosition(0,0);
+        Person person = GetPerson(entry:true);
+        if(person != null){ //If person exists, enter edit wizard
+            Console.Write($"Enter name (Current: {person.Name}) (Press enter to keep): ");
+            string newName = Console.ReadLine();
+            Console.Write($"Enter biological sex at birth (Current: {person.Gender}) (Press enter to keep): ");
+            string newGender = Console.ReadLine();
+            Console.Write($"Enter age (Current: {person.Age}) (Press enter to keep): ");
+            int newAge = 0;
+            try{newAge = Convert.ToInt32(Console.ReadLine());}catch(FormatException){}
+            Console.Write($"Enter height (Current: {person.Height} in) (Press enter to keep): ");
+            double newHeight = 0.0;
+            try{newHeight = Convert.ToDouble(Console.ReadLine());}catch(FormatException){}
+            Console.Write($"Enter weight (Current: {person.Weight} lbs) (Press enter to keep): ");
+            double newWeight = 0.0;
+            try{newWeight = Convert.ToDouble(Console.ReadLine());}catch(FormatException){}
+            //check for null
+            if(newName != ""){person.Name = newName;}
+            if(newGender != ""){person.Gender = newGender;}
+            if(newAge != 0){person.Age = newAge;}
+            if(newHeight != 0.0){person.Height = newHeight;}
+            if(newWeight != 0.0){person.Weight = newWeight;}
+            return true;
+        }
+        return false;
+    }
+
     public static Person GetPerson(string name = "",bool entry = false){
         if(entry == true){
             Console.Write("Enter the name of the person: ");
@@ -101,7 +153,9 @@ class Person{
         }
         if(entry == true){
             Console.WriteLine("Person not found..");
-            GetPerson(entry:true);
+            Console.Write("Search again? (y/n): ");
+            string exitOption = Console.ReadLine();
+            if(exitOption.ToLower() == "y"){GetPerson(entry:true);}
         }
         return null;
     }

@@ -52,7 +52,7 @@ class FoodItem : StorageItem{
         string expDate = Console.ReadLine();
         DateTime parse = ParseDate(expDate);
 
-        new FoodItem(name, quantity, storeRoom, parse );
+        _ = new FoodItem(name, quantity, storeRoom, parse );
     }
 
     public static bool RemoveFoodItem(){
@@ -76,10 +76,15 @@ class FoodItem : StorageItem{
         Console.Write("Enter the desired food name (or enter 'all' to see all items): ");
         string name = Console.ReadLine();
         if(name.ToLower() == "all"){
+            if(FoodItems.Count() == 0){
+                Console.WriteLine("No items available, returning to main menu");
+                Thread.Sleep(200);
+                return false;
+            }
             for(int i=0;i<FoodItems.Count();i++){
                 Console.WriteLine($"{i}. {FoodItems[i].Name}");
             }
-            Console.WriteLine("\nPlease select desired item number (or enter 'exit' to leave): ");
+            Console.Write("\nPlease select desired item number (or enter 'exit' to leave): ");
             name = Console.ReadLine();
             if(name == "exit"){return false;}
         }
@@ -97,15 +102,16 @@ class FoodItem : StorageItem{
                     Console.Write($"Enter new name (Current: {food.Name}) (Press enter to keep): )");
                     string newName = Console.ReadLine();
                     Console.Write($"Enter new quantity (Current: {food.Quantity}) (Press enter to keep): ");
-                    int newQty = Convert.ToInt32(Console.ReadLine());
+                    int newQty = 0;
+                    try{newQty = Convert.ToInt32(Console.ReadLine());}catch(FormatException){}
                     Console.Write($"Enter store room name (Current: {food.StoreRoom.Name}) (Press enter to keep): ");
                     string newStoreRoom = Console.ReadLine();
                     Console.Write($"Enter earliest expiration date (Current: {food.ExpirationDate}) (Press enter to keep): ");
                     string newExpDate = Console.ReadLine();
-                    if(newName != null){food.Name = newName;}
+                    if(newName != ""){food.Name = newName;}
                     if(newQty != 0){food.Quantity = newQty;}
                     if(newStoreRoom != null){food.StoreRoom = StoreRoom.GetStoreRoom(newStoreRoom);}
-                    if(newExpDate != null){food.ExpirationDate = DateTime.Parse(newExpDate);}
+                    if(newExpDate != ""){food.ExpirationDate = DateTime.Parse(newExpDate);}
                     return true;
                 }
             }

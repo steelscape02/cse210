@@ -56,7 +56,7 @@ class ClothingItem : StorageItem{
         Person assignedPerson = Person.GetPerson();
         Console.Write("Enter clothing size (ex: 32x32, Large): ");
         string size = Console.ReadLine();
-        new ClothingItem(type: type, storeRoom: storeRoom,style: style,person: assignedPerson, size: size);
+        _ = new ClothingItem(type: type, storeRoom: storeRoom,style: style,person: assignedPerson, size: size);
     }
 
     public static bool RemoveClothingItem()
@@ -118,10 +118,10 @@ class ClothingItem : StorageItem{
                 string newSize = Console.ReadLine();
 
                 if(assignedPerson != null){clothing.AssignedPerson = assignedPerson;}
-                if(newName != null){clothing.Name = newName;}
+                if(newName != null && newName != ""){clothing.Name = newName;}
                 if(newStoreRoom != null){clothing.StoreRoom = StoreRoom.GetStoreRoom(newStoreRoom);}
-                if(newStyle != null){clothing.Style = newStyle;}
-                if(newSize !=  null){clothing.Size = newSize;}
+                if(newStyle != null && newStyle != ""){clothing.Style = newStyle;}
+                if(newSize !=  null && newSize != ""){clothing.Size = newSize;}
                 return true;
             }
         }

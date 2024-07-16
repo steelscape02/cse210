@@ -58,7 +58,7 @@ class DocumentItem : StorageItem{
         DateTime parse = ParseDate(expDate);
         Person assignedPerson = Person.GetPerson();
 
-        new DocumentItem(name: name,storeRoom: storeRoom,type: type, person: assignedPerson,effectiveDate: parse);
+        _ = new DocumentItem(name: name,storeRoom: storeRoom,type: type, person: assignedPerson,effectiveDate: parse);
     }
 
     public static bool RemoveDocumentItem()
@@ -108,10 +108,10 @@ class DocumentItem : StorageItem{
 
                 Person assignedPerson = Person.GetPerson(name:personName);
                 if(assignedPerson != null){document.AssignedPerson = assignedPerson;}
-                if(newName != null){document.Name = newName;}
+                if(newName != ""){document.Name = newName;}
                 if(newStoreRoom != null){document.StoreRoom = StoreRoom.GetStoreRoom(newStoreRoom);}
-                if(newType != null){document.Type = newType;}
-                if(newEffDate != null){document.EffectiveDate = DateTime.Parse(newEffDate);}
+                if(newType != ""){document.Type = newType;}
+                if(newEffDate != ""){document.EffectiveDate = DateTime.Parse(newEffDate);}
                 return true;
             }
         }

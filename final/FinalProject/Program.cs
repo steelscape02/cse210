@@ -87,9 +87,17 @@ class Program
         Console.SetCursorPosition(0,0);
         Console.WriteLine("1. Items");
         Console.WriteLine("2. Family");
-        Console.WriteLine("3. Reports\n");
+        Console.WriteLine("3. Reports");
+        Console.WriteLine("4. Quit\n");
         Console.Write("Enter Choice: ");
-        int category = Convert.ToInt32(Console.ReadLine());
+        int category = 0;
+        try{category = Convert.ToInt32(Console.ReadLine());}catch(FormatException)
+        {
+            Console.WriteLine("Please enter a number..");
+            Thread.Sleep(600);
+            Menu();
+        }
+        if(category == 4){return [4,0];}
         int option = 0;
         if(category == 1 || category == 2){ //items or family
             Console.Clear();
@@ -131,28 +139,25 @@ class Program
         int itemType = Convert.ToInt32(Console.ReadLine());
         if(itemType == 4){Main([""]);}
 
-        if(option == 1 || option == 2) //1: New  2: Edit
+        if(option ==1) //New
         {
-            if(option ==1) //New
+            if(itemType == 1){FoodItem.CreateFoodItem();}
+            if(itemType == 2){ClothingItem.CreateClothingItem();}
+            if(itemType == 3){DocumentItem.CreateDocumentItem();}
+        }
+        if(option ==2) //Edit
+        {
+            if(itemType == 1)
             {
-                if(itemType == 1){FoodItem.CreateFoodItem();}
-                if(itemType == 2){ClothingItem.CreateClothingItem();}
-                if(itemType == 3){DocumentItem.CreateDocumentItem();}
+                Console.WriteLine("Select Option");
+                Console.WriteLine("1. Update Quantity only");
+                Console.WriteLine("2. Edit item\n");
+                Console.Write("Enter option number: ");
+                int foodChoice = Convert.ToInt32(Console.ReadLine());
+                FoodItem.EditFoodItem(foodChoice == 1 ? true : false); //for QtyOnly parameter
             }
-            if(option ==2) //Edit
-            {
-                if(itemType == 1)
-                {
-                    Console.WriteLine("Select Option");
-                    Console.WriteLine("1. Update Quantity only");
-                    Console.WriteLine("2. Edit item\n");
-                    Console.Write("Enter option number: ");
-                    int foodChoice = Convert.ToInt32(Console.ReadLine());
-                    FoodItem.EditFoodItem(foodChoice == 1 ? true : false); //for QtyOnly parameter
-                }
-                if(itemType == 2){ClothingItem.EditClothingItem();}
-                if(itemType == 3){DocumentItem.EditDocumentItem();}
-            }
+            if(itemType == 2){ClothingItem.EditClothingItem();}
+            if(itemType == 3){DocumentItem.EditDocumentItem();}
         }
         if(option == 3) //Remove
         {
@@ -166,8 +171,12 @@ class Program
     {
         Console.Clear();
         Console.SetCursorPosition(0,0);
-        //1+2 Conditional
-        //3 Conditional
+        if(option ==1) //New
+        {Person.CreatePerson();}
+        if(option ==2) //Edit
+        {Person.EditPerson();}
+        if(option ==3) //Remove
+        {Person.RemovePerson();}
     }
 
     
@@ -178,7 +187,7 @@ class Program
         bool exit = false;
         while(exit == false){
             int[] choice = Menu(); //0: type 1: option
-            if(choice[1] == 4) //Go back option
+            if(choice[1] == 4 || choice[0] == 4) //Go back option
             {
                 CloseProgram();
                 exit = true;
