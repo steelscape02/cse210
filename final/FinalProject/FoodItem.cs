@@ -70,6 +70,23 @@ class FoodItem : StorageItem{
         return false;
     }
 
+    public static DateTime? GetDate(string expDate){
+        Console.Write($"Please enter expiration date (Current: {expDate}) (Press enter to keep): ");
+        string newDate = Console.ReadLine();
+        try{
+            if(newDate != "")
+            {
+                var date = DateTime.Parse(newDate);
+                return date;
+            }
+        }catch(FormatException){
+            Console.Write("Incorrect date format entered. Try again? (y/n): ");
+            string exitChoice = Console.ReadLine();
+            if(exitChoice.ToLower() == "y"){GetDate(expDate);}
+        }
+        return null;
+    }
+
     public static bool EditFoodItem(bool QtyOnly = false){
         Console.Clear();
         Console.SetCursorPosition(0,0);
@@ -106,12 +123,11 @@ class FoodItem : StorageItem{
                     try{newQty = Convert.ToInt32(Console.ReadLine());}catch(FormatException){}
                     Console.Write($"Enter store room name (Current: {food.StoreRoom.Name}) (Press enter to keep): ");
                     string newStoreRoom = Console.ReadLine();
-                    Console.Write($"Enter earliest expiration date (Current: {food.ExpirationDate}) (Press enter to keep): ");
-                    string newExpDate = Console.ReadLine();
+                    var date = GetDate(food.ExpirationDate.ToString());
                     if(newName != ""){food.Name = newName;}
                     if(newQty != 0){food.Quantity = newQty;}
                     if(newStoreRoom != null){food.StoreRoom = StoreRoom.GetStoreRoom(newStoreRoom);}
-                    if(newExpDate != ""){food.ExpirationDate = DateTime.Parse(newExpDate);}
+                    if(date != null){food.ExpirationDate = DateTime.Parse(date.ToString());}
                     return true;
                 }
             }

@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 class DocumentItem : StorageItem{
     private string _name;
     public string Name
@@ -77,6 +79,23 @@ class DocumentItem : StorageItem{
         return false;
     }
 
+    public static DateTime? GetDate(string effDate){
+        Console.Write("Please enter effective date (Press enter to keep): ");
+        string newDate = Console.ReadLine();
+        try{
+            if(newDate != "")
+            {
+                var date = DateTime.Parse(newDate);
+                return date;
+            }
+        }catch(FormatException){
+            Console.Write("Incorrect date format entered. Try again? (y/n): ");
+            string exitChoice = Console.ReadLine();
+            if(exitChoice.ToLower() == "y"){GetDate(effDate);}
+        }
+        return null;
+    }
+
     public static bool EditDocumentItem(){
         Console.Clear();
         Console.SetCursorPosition(0,0);
@@ -105,13 +124,14 @@ class DocumentItem : StorageItem{
                 string personName = Console.ReadLine();
                 Console.Write($"Enter effective date (Current: {document.EffectiveDate}) (Press enter to keep): ");
                 string newEffDate = Console.ReadLine();
+                var date = GetDate(document.EffectiveDate.ToString());
 
                 Person assignedPerson = Person.GetPerson(name:personName);
                 if(assignedPerson != null){document.AssignedPerson = assignedPerson;}
                 if(newName != ""){document.Name = newName;}
                 if(newStoreRoom != null){document.StoreRoom = StoreRoom.GetStoreRoom(newStoreRoom);}
                 if(newType != ""){document.Type = newType;}
-                if(newEffDate != ""){document.EffectiveDate = DateTime.Parse(newEffDate);}
+                if(date != null){document.EffectiveDate = DateTime.Parse(date.ToString());}
                 return true;
             }
         }

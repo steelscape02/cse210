@@ -23,8 +23,6 @@ internal class ReaderPerson{
     public double height;
     public double weight;
     public int size;
-    public int width;
-    public int length;
 }
 
 class Program
@@ -37,16 +35,19 @@ class Program
             using (StreamReader r = new StreamReader(FILENAME))
             {
                 string json = r.ReadToEnd();
-                dynamic array = JsonSerializer.Deserialize<List<ReaderItem>>(json);
-                foreach(ReaderItem item in array){
-                    string type = item.type;
-                    if(type.ToLower() == "food"){new FoodItem(item.name,item.quantity,item.storeRoom,DateTime.Parse(item.date));}
-                    if(type.ToLower() == "document"){new DocumentItem(item.name,item.storeRoom,item.docPurpose,item.person,DateTime.Parse(item.date));}
-                    if(type.ToLower() == "clothing"){new ClothingItem(item.name,item.storeRoom,item.ClStyle,item.person,item.ClSize);}
-                    //TODO: #1 Add StoreRoom info
-                }
+                try{
+                    dynamic array = JsonSerializer.Deserialize<List<ReaderItem>>(json);
+                    foreach(ReaderItem item in array){
+                        string type = item.type;
+                        if(type.ToLower() == "food"){new FoodItem(item.name,item.quantity,item.storeRoom,DateTime.Parse(item.date));}
+                        if(type.ToLower() == "document"){new DocumentItem(item.name,item.storeRoom,item.docPurpose,item.person,DateTime.Parse(item.date));}
+                        if(type.ToLower() == "clothing"){new ClothingItem(item.name,item.storeRoom,item.ClStyle,item.person,item.ClSize);}
+                        //TODO: #1 Add StoreRoom info
+                    }
+                }catch(JsonException){}
             }
         }catch(FileNotFoundException){
+            Console.WriteLine($"Database file _{FILENAME}_ not found");
             return;
         }
     }
@@ -54,13 +55,11 @@ class Program
     static async void Write(List<ReaderItem> items,List<ReaderPerson> family)
     {
         //items
-        await using FileStream createStream = File.Create(FILENAME);
-        foreach(ReaderItem item in items){
-            await JsonSerializer.SerializeAsync(createStream,item);
-        }
-        foreach(ReaderPerson person in family){
-            await JsonSerializer.SerializeAsync(createStream,person);
-        }
+        // await using FileStream createStream = File.Create(FILENAME);
+        string json = JsonSerializer.Serialize(items);
+        json += JsonSerializer.Serialize(family);
+        File.WriteAllText(FILENAME,json);
+        
     }
 
     static void CloseProgram(int flags = 0)
@@ -76,7 +75,7 @@ class Program
         foreach(ClothingItem clothing in ClothingItem.ClothingItems){itemList.Add(new ReaderItem {name=clothing.Name,type="clothing",storeRoom=clothing.StoreRoom,person=clothing.AssignedPerson,ClStyle=clothing.Style,ClSize=clothing.Size});}
         
         List<ReaderPerson> familyList = [];
-        foreach(Person person in Person.Family){familyList.Add(new ReaderPerson {name=person.Name,age=person.Age,gender=person.Gender,height=person.Height,weight=person.Weight,size=person.Size,length=person.Length,width=person.Width});}
+        foreach(Person person in Person.Family){familyList.Add(new ReaderPerson {name=person.Name,age=person.Age,gender=person.Gender,height=person.Height,weight=person.Weight,size=person.Size});}
         Write(itemList,familyList);
         return;
     }
@@ -115,9 +114,9 @@ class Program
             Console.Clear();
             Console.SetCursorPosition(0,0);
             Console.WriteLine("Reports\n");
-            Console.WriteLine("1. Show all");
-            Console.WriteLine("2. Configure Default Display");
-            Console.WriteLine("3. Custom Report");
+            Console.WriteLine("1. Show all items");
+            Console.WriteLine("2. New Report");
+            Console.WriteLine("3. Show saved report");
             Console.WriteLine("4. Go back\n");
             Console.Write("Enter Choice: ");
             option = Convert.ToInt32(Console.ReadLine());
@@ -179,6 +178,17 @@ class Program
         {Person.RemovePerson();}
     }
 
+    static void ReportWizard([Range(1,3)]int option)
+    {
+        Console.Clear();
+        Console.SetCursorPosition(0,0);
+        if(option ==1) //Show all
+        {Report.ShowAll();}
+        if(option ==2) //Create New
+        {Report.CreateReport();}
+        if(option ==3) //Show saved
+        {Report.GetReport();}
+    }
     
 
     static void Main(string[] args)
@@ -193,13 +203,11 @@ class Program
                 exit = true;
             }
             if(choice[0] == 1) //Item
-            {
-                ItemWizard(choice[1]);
-            }
+            {ItemWizard(choice[1]);}
             if(choice[0] == 2) //Family
-            {
-                PersonWizard(choice[1]);
-            }
+            {PersonWizard(choice[1]);}
+            if(choice[0] == 3) //Reports
+            {ReportWizard(choice[1]);}
         }
 
     }
